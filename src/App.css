@@ -418,3 +418,90 @@
   margin: 0;
 }
 
+/* ── Cyber Forensics Report Print Media styles ─────── */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .app-header, .panel.ingestion-panel, .app-footer, .export-bar, .json-inspector, .back-btn {
+    display: none !important;
+  }
+  .app-main {
+    display: block !important;
+    padding: 0 !important;
+  }
+  .panel.analytics-panel {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .panel.analytics-panel::before {
+    display: none !important;
+  }
+  .panel-header {
+    border-bottom: 2px solid #333 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 20px !important;
+  }
+  .panel-title {
+    color: #000000 !important;
+    font-size: 18px !important;
+  }
+  .panel-badge {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+    background: transparent !important;
+  }
+  .verdict-block {
+    background: #f8fafc !important;
+    border: 2px solid #cbd5e1 !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+  }
+  .verdict-value {
+    font-size: 24px !important;
+    font-weight: 800 !important;
+  }
+  .heuristics-panel, .summary-block, .actions-block, .agent-result-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #000000 !important;
+    page-break-inside: avoid;
+  }
+  .heuristics-panel *, .summary-block *, .actions-block *, .agent-result-card * {
+    color: #000000 !important;
+    background: transparent !important;
+  }
+  .severity-tag {
+    border: 1px solid #475569 !important;
+    color: #475569 !important;
+  }
+  .severity-tag.critical {
+    border: 1.5px solid #ef4444 !important;
+    color: #ef4444 !important;
+  }
+  .severity-tag.high {
+    border: 1.5px solid #fb7185 !important;
+    color: #fb7185 !important;
+  }
+  .severity-tag.medium {
+    border: 1.5px solid #f59e0b !important;
+    color: #f59e0b !important;
+  }
+  .bar-track {
+    background: #e2e8f0 !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  .bar-fill {
+    background: #475569 !important;
+    box-shadow: none !important;
+  }
+  .action-item {
+    border: 1px solid #e2e8f0 !important;
+  }
+}
+
