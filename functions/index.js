@@ -52,7 +52,7 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
 
       // 4. Query Gemini
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -68,7 +68,7 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
         verdict: parsedResult.verdict,
         overallRiskScore: parsedResult.overallRiskScore,
         scamCategory: parsedResult.scamCategory,
-        engineUsed: engine || "gemini-1.5-flash",
+        engineUsed: engine || "gemini-2.5-flash",
         timestamp: admin.firestore.FieldValue.serverTimestamp()
       });
 
