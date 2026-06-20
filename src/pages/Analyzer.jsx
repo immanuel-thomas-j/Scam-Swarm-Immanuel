@@ -951,9 +951,7 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
       <footer className="app-footer">
         <span>SCAM SWARM v2.0</span>
         <span className="footer-sep">//</span>
-        <span>Powered by <strong style={{ color: aiEngine === 'gemini' ? '#22d3ee' : '#f59e0b' }}>
-          {aiEngine === 'gemini' ? 'Gemini 1.5 Flash · Google Cloud' : 'LLaMA 3.3 · Groq'}
-        </strong></span>
+        <span>Made with ❤️ for Gemini.exe 2.0</span>
         <span className="footer-sep">//</span>
         <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
         <span className="footer-sep">//</span>

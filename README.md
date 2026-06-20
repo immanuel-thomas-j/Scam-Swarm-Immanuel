@@ -15,7 +15,7 @@
 **Stop digital fraud, phishing, and UPI scams in under 2 seconds.**  
 Multi-agent parallel forensics · Deterministic heuristics check · Switchable dual AI engine · Vite React SPA
 
-Built for [NextGenHacks 2026](https://nextgenhacks.devpost.com)
+Built for Gemini.exe 2.0
 
 </div>
 
@@ -151,5 +151,5 @@ Distributed under the MIT License.
 ---
 
 <div align="center">
-  <sub>Built with ❤️ for NextGenHacks 2026</sub>
+  <sub>Built with ❤️ for Gemini.exe 2.0</sub>
 </div>
