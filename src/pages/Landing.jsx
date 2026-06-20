@@ -200,67 +200,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── GCP ARCHITECTURE ── */}
-      <section className="lnd-arch-section" id="architecture">
-        <div className="lnd-section-inner">
-          <div className="lnd-section-tag">PRODUCTION ARCHITECTURE</div>
-          <h2 className="lnd-section-title">Built on <span className="lnd-accent">Google Cloud</span></h2>
-          <div className="lnd-arch-diagram scroll-reveal">
-            <div className="lnd-arch-flow">
-              <div className="lnd-arch-node input-node">
-                <UserIcon size={22} color="var(--text-secondary)" />
-                <span>User Input</span>
-              </div>
-              <div className="lnd-arch-connector"><div className="lnd-conn-line animated-line" /><span className="lnd-conn-label">HTTPS</span></div>
-              <div className="lnd-arch-node" style={{ borderColor: '#f59e0b50' }}>
-                <GlobeIcon size={22} color="#f59e0b" />
-                <span>Firebase Hosting</span><span className="lnd-arch-sub">React SPA</span>
-              </div>
-              <div className="lnd-arch-connector"><div className="lnd-conn-line animated-line" /><span className="lnd-conn-label">REST</span></div>
-              <div className="lnd-arch-node highlight-node">
-                <SettingsIcon size={22} color="#22d3ee" />
-                <span>Cloud Functions</span><span className="lnd-arch-sub">Orchestrator</span>
-              </div>
-            </div>
-
-            <div className="lnd-arch-pubsub-row">
-              <div className="lnd-pubsub-line" />
-              <div className="lnd-arch-node pubsub-center">
-                <PubSubIcon size={22} color="#a855f7" />
-                <span>Cloud Pub/Sub</span><span className="lnd-arch-sub">Fan-Out → 3 Topics</span>
-              </div>
-              <div className="lnd-pubsub-line" />
-            </div>
-
-            <div className="lnd-arch-agents-row">
-              {AGENTS.map((a, i) => {
-                const AgentIcon = {
-                  link: LinkIcon,
-                  brain: BrainIcon,
-                  money: MoneyIcon
-                }[a.icon];
-                return (
-                  <div key={i} className="lnd-arch-node agent-node" style={{ borderColor: `${a.color}40`, background: `${a.color}08` }}>
-                    {AgentIcon && <AgentIcon size={22} color={a.color} />}
-                    <span style={{ color: a.color }}>CF: {a.name.split(' ').slice(0, 2).join(' ')}</span>
-                    <span className="lnd-arch-sub">Agent Worker</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="lnd-arch-pubsub-row">
-              <div className="lnd-pubsub-line" />
-              <div className="lnd-arch-node firestore-node">
-                <DatabaseIcon size={22} color="#22c55e" />
-                <span>Firestore</span><span className="lnd-arch-sub">Results + Audit Log</span>
-              </div>
-              <div className="lnd-pubsub-line" />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── FINAL CTA ── */}
       <section className="lnd-final-cta scroll-reveal">
         <div className="lnd-section-inner">
@@ -287,7 +226,7 @@ export default function Landing() {
           <div className="lnd-footer-links">
             <span>Made with ❤️ for Gemini.exe 2.0</span>
             <span className="lnd-sep">//</span>
-            <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
+            <span>React · Google Gemini API · Firebase Hosting</span>
           </div>
         </div>
       </footer>
