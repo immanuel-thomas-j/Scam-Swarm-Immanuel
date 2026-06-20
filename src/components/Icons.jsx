@@ -77,9 +77,10 @@ export const LinkIcon = ({ size, color }) => (
 
 export const BrainIcon = ({ size, color }) => (
   <svg {...svgProps(size, color)}>
-    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-3.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2z" fill="currentColor" fillOpacity="0.15" />
-    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-3.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2z" fill="currentColor" fillOpacity="0.15" />
-    <path d="M12 4v16" />
+    <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+    <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+    <path d="M9 13a4.5 4.5 0 0 0 3-4"/>
+    <path d="M15 13a4.5 4.5 0 0 1-3-4"/>
   </svg>
 );
 

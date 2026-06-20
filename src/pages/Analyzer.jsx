@@ -116,6 +116,136 @@ const getStatusGlow = (s) => {
 };
 const getRiskColor = (score) => score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#22c55e';
 
+// ── Local Heuristic Engine ────────────────────────────────────────────────────
+function runLocalHeuristicAnalysis(text) {
+  const findings = [];
+  let scoreWeight = 0;
+
+  // 1. URL Analysis
+  const urlRegex = /(https?:\/\/[^\s]+)/gi;
+  const urls = text.match(urlRegex) || [];
+  
+  if (urls.length > 0) {
+    findings.push({
+      type: 'URL_DETECTED',
+      label: 'Telemetry URL Link',
+      desc: `Extracted ${urls.length} link(s) from communication telemetry.`,
+      severity: 'INFO',
+    });
+    
+    urls.forEach((urlStr) => {
+      try {
+        const cleanUrl = urlStr.trim().replace(/[.,;:"]+$/, '');
+        const urlObj = new URL(cleanUrl);
+        const hostname = urlObj.hostname.toLowerCase();
+        
+        // HTTP protocol check
+        if (urlObj.protocol === 'http:') {
+          findings.push({
+            type: 'INSECURE_PROTOCOL',
+            label: 'Insecure URL Protocol',
+            desc: `Link '${hostname}' uses unencrypted HTTP instead of secure HTTPS.`,
+            severity: 'HIGH',
+          });
+          scoreWeight += 25;
+        }
+        
+        // Brand spoofing check
+        const susBrands = ['sbi', 'netflix', 'icici', 'hdfc', 'google', 'amazon', 'paytm', 'phonepe'];
+        const legitDomains = ['onlinesbi.sbi', 'sbi.co.in', 'netflix.com', 'icicibank.com', 'hdfcbank.com', 'google.com', 'amazon.in', 'amazon.com', 'paytm.com', 'phonepe.com'];
+        
+        const isLegit = legitDomains.some(legit => hostname === legit || hostname.endsWith('.' + legit));
+        
+        if (!isLegit) {
+          const matchedSus = susBrands.find(sus => hostname.includes(sus));
+          if (matchedSus) {
+            findings.push({
+              type: 'LOOKALIKE_DOMAIN',
+              label: 'Typosquatted Brand Lookalike',
+              desc: `Suspicious domain '${hostname}' contains the trademarked brand name '${matchedSus}'.`,
+              severity: 'CRITICAL',
+            });
+            scoreWeight += 35;
+          }
+        }
+        
+        // Suspicious TLD Triage
+        const susTLDs = ['.xyz', '.info', '.top', '.click', '.net', '.club', '.work', '.gq', '.cf', '.ml', '.tk', '.cc'];
+        const matchedTLD = susTLDs.find(tld => hostname.endsWith(tld));
+        if (matchedTLD && !isLegit) {
+          findings.push({
+            type: 'SUSPICIOUS_TLD',
+            label: 'High-Risk TLD (Top-Level Domain)',
+            desc: `Link uses high-risk TLD '${matchedTLD}' commonly preferred by phishing kits.`,
+            severity: 'MEDIUM',
+          });
+          scoreWeight += 15;
+        }
+      } catch (e) {
+        findings.push({
+          type: 'MALFORMED_URL',
+          label: 'Malformed URL Telemetry',
+          desc: `Link '${urlStr}' is malformed or uses invalid schema patterns.`,
+          severity: 'LOW',
+        });
+        scoreWeight += 5;
+      }
+    });
+  }
+
+  // 2. UPI and Payment Address Analysis
+  const upiRegex = /[a-zA-Z0-9.\-_]+@[a-zA-Z]{3,}/gi;
+  const upis = text.match(upiRegex) || [];
+  if (upis.length > 0) {
+    upis.forEach((upi) => {
+      findings.push({
+        type: 'UPI_DETECTED',
+        label: 'UPI VPA Payment Target',
+        desc: `Identified virtual payment address: '${upi}'.`,
+        severity: 'HIGH',
+      });
+      scoreWeight += 20;
+    });
+  }
+
+  // 3. Urgency and Threat Indicators
+  const urgencyKeywords = [
+    { word: 'urgent', label: 'High Urgency Trigger' },
+    { word: 'immediately', label: 'High Urgency Trigger' },
+    { word: 'blocked', label: 'Suspension Warning' },
+    { word: 'suspended', label: 'Suspension Warning' },
+    { word: 'terminated', label: 'Termination threat' },
+    { word: 'verify', label: 'Verification Hook' },
+    { word: 'kyc', label: 'KYC Verification request' },
+    { word: 'lottery', label: 'Lottery Prize Lure' },
+    { word: 'lakh', label: 'Lottery Reward Value' },
+    { word: 'won', label: 'Lottery Reward Value' },
+    { word: 'processing fee', label: 'Advance Fee Hook' },
+    { word: 'unauthorized login', label: 'Fake Alert Sign' }
+  ];
+  
+  const lowerText = text.toLowerCase();
+  const matchedWords = new Set();
+  urgencyKeywords.forEach(({ word, label }) => {
+    if (lowerText.includes(word) && !matchedWords.has(word)) {
+      matchedWords.add(word);
+      findings.push({
+        type: 'URGENCY_KEYWORD',
+        label,
+        desc: `Text includes urgent action phrasing: '${word}'.`,
+        severity: 'MEDIUM',
+      });
+      scoreWeight += 10;
+    }
+  });
+
+  const heuristicScore = Math.min(95, scoreWeight);
+  return {
+    findings,
+    heuristicScore,
+  };
+}
+
 // ── RiskGauge ─────────────────────────────────────────────────────────────────
 function RiskGauge({ score }) {
   const color = getRiskColor(score);
@@ -326,7 +456,10 @@ export default function Analyzer() {
  
   const copyReport = () => {
     if (!swarmPayload) return;
-    const report = `SCAM SWARM ANALYSIS REPORT\nVerdict: ${swarmPayload.verdict}\nRisk Score: ${swarmPayload.overallRiskScore}/100\nCategory: ${swarmPayload.scamCategory}\nSummary: ${swarmPayload.executiveSummary}\nAgents:\n${swarmPayload.agents.map(a => `  • ${a.name}: ${a.status} — ${a.finding}`).join('\n')}\n\nGenerated by Scam Swarm — cybercrime.gov.in | Helpline: 1930`;
+    const heuristicsText = swarmPayload.heuristics?.findings?.length
+      ? `Local Heuristics:\n${swarmPayload.heuristics.findings.map(f => `  [${f.severity}] ${f.label}: ${f.desc}`).join('\n')}`
+      : 'Local Heuristics: No threat indicators detected';
+    const report = `SCAM SWARM ANALYSIS REPORT\nVerdict: ${swarmPayload.verdict}\nRisk Score: ${swarmPayload.overallRiskScore}/100\nCategory: ${swarmPayload.scamCategory}\nSummary: ${swarmPayload.executiveSummary}\n\n${heuristicsText}\n\nAgents:\n${swarmPayload.agents.map(a => `  • ${a.name}: ${a.status} — ${a.finding}`).join('\n')}\n\nGenerated by Scam Swarm — cybercrime.gov.in | Helpline: 1930`;
     navigator.clipboard.writeText(report);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -355,14 +488,22 @@ export default function Analyzer() {
       if (idx > 2) clearInterval(intervalRef.current);
       else setActiveAgentIdx(idx);
     }, 1400);
- 
-    const prompt = `You are a cybersecurity fraud detection AI called Scam Swarm. Analyze the text below for scams, phishing, UPI fraud, or social engineering.
+
+    const heuristicsReport = runLocalHeuristicAnalysis(inputContent);
+
+    const prompt = `You are a cybersecurity fraud detection AI called Scam Swarm.
+We have run a deterministic heuristics engine on the input text, which has extracted the following findings:
+${JSON.stringify(heuristicsReport.findings, null, 2)}
+
+Analyze the text below for scams, phishing, UPI fraud, or social engineering, using these heuristic findings as pre-extracted threat indicators.
 Text: "${inputContent.slice(0, 800)}"
 Respond ONLY with a valid JSON object (no extra text) matching this structure exactly:
 {"overallRiskScore":<0-100>,"verdict":"SAFE or SUSPICIOUS or CRITICAL THREAT","scamCategory":"<category>","executiveSummary":"<2 sentence analysis>","confidence":<0-100>,"threatIndicators":["<phrase1>","<phrase2>","<phrase3>"],"recommendedActions":["<action1>","<action2>","<action3>"],"agents":[{"name":"Link & Domain Investigator","status":"SAFE or SUSPICIOUS or MALICIOUS","finding":"<finding>"},{"name":"Psychological Urgency Cop","status":"SAFE or SUSPICIOUS or MALICIOUS","finding":"<finding>"},{"name":"Financial Pattern Auditor","status":"SAFE or SUSPICIOUS or MALICIOUS","finding":"<finding>"}]}`;
  
     try {
       const parsed = await callAI(prompt, aiEngine);
+      parsed.heuristics = heuristicsReport;
+
       clearInterval(intervalRef.current);
       setActiveAgentIdx(3);
       setScanTime(((Date.now() - startTimeRef.current) / 1000).toFixed(2));
@@ -588,6 +729,28 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
                   <RiskGauge score={swarmPayload.overallRiskScore}/>
                 </div>
               </div>
+
+              {/* Local Heuristics Report */}
+              {swarmPayload.heuristics && swarmPayload.heuristics.findings?.length > 0 && (
+                <div className="heuristics-panel animate-slide-up" style={{ animationDelay: '50ms' }}>
+                  <div className="block-header" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <ShieldIcon size={16} color="var(--cyan)" />
+                    <span className="block-label">DETERMINISTIC HEURISTIC DIAGNOSTICS</span>
+                    <span className="heuristics-badge">LOCAL ENGINE</span>
+                  </div>
+                  <div className="heuristics-list">
+                    {swarmPayload.heuristics.findings.map((f, i) => (
+                      <div key={i} className={`heuristic-item ${f.severity.toLowerCase()}`}>
+                        <div className="heuristic-meta">
+                          <span className={`severity-tag ${f.severity.toLowerCase()}`}>{f.severity}</span>
+                          <strong className="heuristic-label">{f.label}</strong>
+                        </div>
+                        <p className="heuristic-desc">{f.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Executive Summary */}
               <div className="summary-block animate-slide-up" style={{ animationDelay: '100ms' }}>

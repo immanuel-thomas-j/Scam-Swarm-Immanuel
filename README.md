@@ -1,4 +1,4 @@
-# 🛡️ Scam Swarm — Multi-Agent AI Fraud Detection Console
+# Scam Swarm — Multi-Agent AI Fraud Detection Console
 
 **Scam Swarm** is a production-grade, GCP-native cybersecurity analysis platform built to identify, dissect, and neutralize digital scams, phishing threats, and financial frauds in real time. 
 
@@ -6,7 +6,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ---
 
-## 🏆 Hackathon Focus Areas & Standouts
+## Hackathon Focus Areas & Standouts
 
 ### 1. Best Use of AI APIs
 *   **Dual AI Engine Support**: Equipped with a runtime-switchable engine adapter. Test and compare **Google Gemini 1.5 Flash** (via the official `@google/genai` SDK) against **LLaMA 3.3** (via Groq Cloud SDK).
@@ -26,7 +26,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ---
 
-## ⚙️ Project Architecture
+## Project Architecture
 
 ```
                     ┌─────────────────────────┐
@@ -61,7 +61,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 *   [Node.js](https://nodejs.org/) (v18 or higher recommended)
@@ -92,7 +92,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ---
 
-## 📂 Codebase Structure
+## Codebase Structure
 
 ```
 ├── public/                 # Static assets
@@ -113,7 +113,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ---
 
-## 🛡️ Production Deployment (Firebase Hosting)
+## Production Deployment (Firebase Hosting)
 
 To deploy the frontend application to production:
 
@@ -137,5 +137,5 @@ To deploy the frontend application to production:
 
 ---
 
-## 📞 Indian Cybercrime Support
+## Indian Cybercrime Support
 If you have fallen victim to financial cyber fraud, immediately contact the **National Cybercrime Helpline** at **`1930`** or register a formal complaint at **[cybercrime.gov.in](https://cybercrime.gov.in)**.

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Landing.css';
 import { 
-  ShieldIcon, MoneyIcon, GlobeIcon, PubSubIcon, DatabaseIcon, IngestionIcon, 
-  RocketIcon, AnalyticsIcon, LinkIcon, BrainIcon, KeyIcon, UserIcon, PhoneIcon,
-  AlertIcon, CheckIcon, PlayIcon, EmptyIcon, SettingsIcon
+  ShieldIcon, MoneyIcon, GlobeIcon, PubSubIcon, DatabaseIcon, 
+  RocketIcon, LinkIcon, BrainIcon, UserIcon, PhoneIcon,
+  AlertIcon, CheckIcon, PlayIcon, SettingsIcon
 } from '../components/Icons';
 
 // ── Impact Stats ──────────────────────────────────────────────────────────────
@@ -15,49 +15,12 @@ const STATS = [
   { value: '1930',       label: 'National Cybercrime Helpline', sub: 'Report fraud instantly', icon: 'shield', color: '#22d3ee' },
 ];
 
-// ── How It Works Steps ────────────────────────────────────────────────────────
-const HOW_IT_WORKS = [
-  { step: '01', icon: 'ingest', title: 'Paste Suspicious Content', desc: 'Drop any SMS, email, UPI request, or URL into the ingestion vector. No signup, no friction.' },
-  { step: '02', icon: 'rocket', title: 'Deploy the Swarm', desc: 'Three specialized AI agents are dispatched in parallel — each hunting a different attack surface simultaneously.' },
-  { step: '03', icon: 'analysis', title: 'Parallel Analysis', desc: 'Link & Domain Investigator, Psychological Urgency Cop, and Financial Pattern Auditor each run independent scans.' },
-  { step: '04', icon: 'shield', title: 'Instant Verdict', desc: 'A composite risk score (0–100) is computed with verdict, threat indicators, and recommended response actions.' },
-];
-
 // ── Agents ────────────────────────────────────────────────────────────────────
 const AGENTS = [
   { icon: 'link', name: 'Link & Domain Investigator', color: '#22d3ee', desc: 'Detects lookalike domains, suspicious redirects, and credential harvesting URLs hidden in messages.', tags: ['Domain Spoofing', 'URL Entropy', 'SSL Mismatch'] },
   { icon: 'brain', name: 'Psychological Urgency Cop',  color: '#a855f7', desc: 'Analyses panic-inducing language, false authority claims, and manufactured time pressure tactics.', tags: ['Urgency Language', 'Authority Spoof', 'Fear Tactics'] },
   { icon: 'money', name: 'Financial Pattern Auditor',  color: '#f59e0b', desc: 'Identifies irregular UPI payment prompts, lottery fund hooks, fake prize claims, and tax evasion lures.', tags: ['UPI Fraud', 'Lottery Scam', 'Advance Fee'] },
 ];
-
-// ── GCP Architecture ──────────────────────────────────────────────────────────
-const GCP_STACK = [
-  { icon: 'globe', name: 'Firebase Hosting', desc: 'Static SPA delivery with global CDN', color: '#f59e0b' },
-  { icon: 'settings', name: 'Cloud Functions', desc: 'Serverless orchestrator + 3 agent workers', color: '#22d3ee' },
-  { icon: 'pubsub', name: 'Cloud Pub/Sub', desc: 'Fan-out message broker for parallel agents', color: '#a855f7' },
-  { icon: 'database', name: 'Firestore',       desc: 'Audit trail, scan history & result store', color: '#22c55e' },
-  { icon: 'analytics', name: 'Cloud Logging',   desc: 'End-to-end observability across all hops', color: '#60a5fa' },
-  { icon: 'key', name: 'Secret Manager',  desc: 'Secure API key storage for AI endpoints', color: '#fb7185' },
-];
-
-// ── Animated counter hook ─────────────────────────────────────────────────────
-function useCountUp(target, duration = 1800, start = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    const num = parseFloat(target.replace(/[^0-9.]/g, ''));
-    if (isNaN(num)) return;
-    let startTime = null;
-    const step = (ts) => {
-      if (!startTime) startTime = ts;
-      const progress = Math.min((ts - startTime) / duration, 1);
-      setCount(Math.floor(progress * num));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [start]);
-  return count;
-}
 
 // ── Stat Card ─────────────────────────────────────────────────────────────────
 function StatCard({ stat, visible }) {
@@ -88,18 +51,40 @@ export default function Landing() {
   const statsRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // 1. Stats observer
+    const statsObserver = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setStatsVisible(true); },
       { threshold: 0.2 }
     );
-    if (statsRef.current) observer.observe(statsRef.current);
-    return () => observer.disconnect();
+    if (statsRef.current) statsObserver.observe(statsRef.current);
+
+    // 2. Scroll Reveal observer
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => revealObserver.observe(el));
+
+    return () => {
+      statsObserver.disconnect();
+      revealObserver.disconnect();
+    };
   }, []);
 
   return (
     <div className="lnd-root">
-      {/* Grid background */}
+      {/* Grid and Glow spots background */}
       <div className="lnd-grid-bg" />
+      <div className="lnd-glow-spot-1" />
+      <div className="lnd-glow-spot-2" />
+      <div className="lnd-glow-spot-3" />
       <div className="scanline-overlay" />
 
       {/* ── NAV ── */}
@@ -112,9 +97,9 @@ export default function Landing() {
             <span className="lnd-nav-title">SCAM SWARM</span>
           </div>
           <div className="lnd-nav-links">
-            <a href="#how-it-works" className="lnd-nav-link">How It Works</a>
-            <a href="#agents" className="lnd-nav-link">Agents</a>
-            <a href="#architecture" className="lnd-nav-link">Architecture</a>
+            <a href="#stats" className="lnd-nav-link">The Crisis</a>
+            <a href="#agents" className="lnd-nav-link">AI Agents</a>
+            <a href="#architecture" className="lnd-nav-link">GCP Stack</a>
             <button className="lnd-nav-cta" onClick={() => navigate('/analyze')}>
               Launch Tool →
             </button>
@@ -125,32 +110,34 @@ export default function Landing() {
       {/* ── HERO ── */}
       <section className="lnd-hero">
         <div className="lnd-hero-inner">
-          <div className="lnd-hero-badge">
-            <span className="lnd-badge-dot" />
-            Multi-Agent AI · GCP Native · Real-Time Detection
+          <div className="lnd-hero-content scroll-reveal">
+            <div className="lnd-hero-badge">
+              <span className="lnd-badge-dot" />
+              Multi-Agent AI · GCP Native · Real-Time Detection
+            </div>
+
+            <h1 className="lnd-hero-title">
+              <span className="lnd-title-line">Fight Fraud</span>
+              <span className="lnd-title-line accent">With a Swarm.</span>
+            </h1>
+
+            <p className="lnd-hero-sub">
+              Scam Swarm deploys three specialized AI agents in parallel to dissect suspicious messages,
+              phishing emails, and UPI fraud attempts — delivering a composite threat verdict in under 2 seconds.
+            </p>
+
+            <div className="lnd-hero-cta-row">
+              <button className="lnd-cta-primary" onClick={() => navigate('/analyze')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <RocketIcon size={20} /> Deploy the Swarm
+              </button>
+              <button className="lnd-cta-secondary" onClick={() => document.getElementById('stats').scrollIntoView({ behavior: 'smooth' })}>
+                See Live Stats ↓
+              </button>
+            </div>
           </div>
 
-          <h1 className="lnd-hero-title">
-            <span className="lnd-title-line">Fight Fraud</span>
-            <span className="lnd-title-line accent">With a Swarm.</span>
-          </h1>
-
-          <p className="lnd-hero-sub">
-            Scam Swarm deploys three specialized AI agents in parallel to dissect suspicious messages,
-            phishing emails, and UPI fraud attempts — delivering a composite threat verdict in under 2 seconds.
-          </p>
-
-          <div className="lnd-hero-cta-row">
-            <button className="lnd-cta-primary" onClick={() => navigate('/analyze')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <RocketIcon size={20} /> Deploy the Swarm
-            </button>
-            <a href="#how-it-works" className="lnd-cta-secondary">
-              See How It Works ↓
-            </a>
-          </div>
-
-          {/* Terminal preview */}
-          <div className="lnd-terminal">
+          {/* Terminal preview (placed beside hero content) */}
+          <div className="lnd-terminal scroll-reveal">
             <div className="lnd-terminal-bar">
               <span className="lnd-dot red" /><span className="lnd-dot amber" /><span className="lnd-dot green" />
               <span className="lnd-terminal-title">scam-swarm · live analysis</span>
@@ -172,38 +159,8 @@ export default function Landing() {
         <div className="lnd-section-inner">
           <div className="lnd-section-tag">THE PROBLEM</div>
           <h2 className="lnd-section-title">Digital Fraud Is a <span className="lnd-accent">National Crisis</span></h2>
-          <p className="lnd-section-sub">India lost over ₹10,319 crore to cyber fraud in FY 2023-24. Scam Swarm was built to fight back.</p>
-          <div className="lnd-stats-grid">
+          <div className="lnd-stats-grid scroll-reveal">
             {STATS.map((s, i) => <StatCard key={i} stat={s} visible={statsVisible} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ── */}
-      <section className="lnd-how-section" id="how-it-works">
-        <div className="lnd-section-inner">
-          <div className="lnd-section-tag">THE SOLUTION</div>
-          <h2 className="lnd-section-title">How Scam Swarm <span className="lnd-accent">Works</span></h2>
-          <div className="lnd-steps-grid">
-            {HOW_IT_WORKS.map((step, i) => {
-              const StepIcon = {
-                ingest: IngestionIcon,
-                rocket: RocketIcon,
-                analysis: AnalyticsIcon,
-                shield: ShieldIcon
-              }[step.icon];
-              return (
-                <div key={i} className="lnd-step-card" style={{ animationDelay: `${i * 100}ms` }}>
-                  <div className="lnd-step-number">{step.step}</div>
-                  <div className="lnd-step-icon" style={{ color: 'var(--cyan)', display: 'flex', alignItems: 'center' }}>
-                    {StepIcon && <StepIcon size={32} />}
-                  </div>
-                  <h3 className="lnd-step-title">{step.title}</h3>
-                  <p className="lnd-step-desc">{step.desc}</p>
-                  {i < HOW_IT_WORKS.length - 1 && <div className="lnd-step-arrow">→</div>}
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>
@@ -214,7 +171,7 @@ export default function Landing() {
           <div className="lnd-section-tag">THE AGENTS</div>
           <h2 className="lnd-section-title">Three Specialists. <span className="lnd-accent">One Verdict.</span></h2>
           <p className="lnd-section-sub">Each agent runs independently via a Pub/Sub fan-out — true parallel execution with no single point of failure.</p>
-          <div className="lnd-agents-grid">
+          <div className="lnd-agents-grid scroll-reveal">
             {AGENTS.map((agent, i) => {
               const AgentIcon = {
                 link: LinkIcon,
@@ -248,10 +205,7 @@ export default function Landing() {
         <div className="lnd-section-inner">
           <div className="lnd-section-tag">PRODUCTION ARCHITECTURE</div>
           <h2 className="lnd-section-title">Built on <span className="lnd-accent">Google Cloud</span></h2>
-          <p className="lnd-section-sub">Scam Swarm is architected for production scale using GCP-native services — every component decoupled, observable, and auto-scaling.</p>
-
-          {/* Architecture flow diagram */}
-          <div className="lnd-arch-diagram">
+          <div className="lnd-arch-diagram scroll-reveal">
             <div className="lnd-arch-flow">
               <div className="lnd-arch-node input-node">
                 <UserIcon size={22} color="var(--text-secondary)" />
@@ -304,41 +258,16 @@ export default function Landing() {
               <div className="lnd-pubsub-line" />
             </div>
           </div>
-
-          {/* GCP Stack Cards */}
-          <div className="lnd-gcp-stack">
-            {GCP_STACK.map((item, i) => {
-              const ChipIcon = {
-                globe: GlobeIcon,
-                settings: SettingsIcon,
-                pubsub: PubSubIcon,
-                database: DatabaseIcon,
-                analytics: AnalyticsIcon,
-                key: KeyIcon
-              }[item.icon];
-              return (
-                <div key={i} className="lnd-gcp-chip" style={{ '--chip-color': item.color }}>
-                  <span className="lnd-gcp-chip-icon" style={{ color: item.color, display: 'flex', alignItems: 'center' }}>
-                    {ChipIcon && <ChipIcon size={24} />}
-                  </span>
-                  <div>
-                    <div className="lnd-gcp-chip-name" style={{ color: item.color }}>{item.name}</div>
-                    <div className="lnd-gcp-chip-desc">{item.desc}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </section>
 
       {/* ── FINAL CTA ── */}
-      <section className="lnd-final-cta">
+      <section className="lnd-final-cta scroll-reveal">
         <div className="lnd-section-inner">
           <div className="lnd-cta-glow" />
           <h2 className="lnd-cta-title">Ready to deploy the swarm?</h2>
-          <p className="lnd-cta-sub">Paste any suspicious message and get a full threat report in seconds. Free. Instant. No login required.</p>
-          <button className="lnd-cta-primary large" onClick={() => navigate('/analyze')} style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto 40px' }}>
+          <p className="lnd-cta-sub" style={{ marginBottom: '28px' }}>Paste any suspicious message and get a full threat report in seconds. Free. Instant.</p>
+          <button className="lnd-cta-primary large" onClick={() => navigate('/analyze')} style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto 30px' }}>
             <RocketIcon size={24} /> Launch Scam Swarm →
           </button>
           <div className="lnd-helpline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
@@ -359,12 +288,9 @@ export default function Landing() {
             <span>Multi-Agent Fraud Detection</span>
             <span className="lnd-sep">//</span>
             <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
-            <span className="lnd-sep">//</span>
-            <span>Powered by LLaMA 3.3 · Groq</span>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
