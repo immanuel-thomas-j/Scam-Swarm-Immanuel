@@ -70,9 +70,9 @@
 /* ── Main Layout ──────────────────────────────────── */
 .app-main {
   max-width: 1400px; margin: 0 auto; padding: 28px 32px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start;
 }
-@media (max-width: 960px) { .app-main { grid-template-columns: 1fr; padding: 20px; } .header-inner { padding: 12px 20px; } }
+@media (max-width: 960px) { .app-main { grid-template-columns: minmax(0, 1fr); padding: 20px; } .header-inner { padding: 12px 20px; } }
 
 /* ── Panel ────────────────────────────────────────── */
 .panel {
@@ -290,17 +290,17 @@
 .export-btn.secondary:hover { background: var(--bg-hover); color: var(--text-primary); }
 
 /* ── JSON Inspector ───────────────────────────────── */
-.json-inspector { border-top: 1px solid var(--border-dim); padding-top: 14px; }
+.json-inspector { border-top: 1px solid var(--border-dim); padding-top: 14px; width: 100%; overflow: hidden; }
 .json-toggle-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border-mid); color: var(--cyan); padding: 8px 14px; border-radius: var(--radius-md); cursor: pointer; font-size: 13px; font-family: var(--font-mono); width: 100%; text-align: left; transition: all 0.2s; }
 .json-toggle-btn:hover { background: var(--cyan-glow); border-color: var(--cyan-dim); }
 .json-toggle-icon { font-size: 11px; color: var(--text-muted); }
 .json-badge { margin-left: auto; font-size: 10px; color: var(--green); background: var(--green-glow); border: 1px solid rgba(34,197,94,0.25); padding: 2px 7px; border-radius: 3px; letter-spacing: 1px; }
-.json-panel { margin-top: 10px; border: 1px solid var(--border-mid); border-radius: var(--radius-md); overflow: hidden; }
+.json-panel { margin-top: 10px; border: 1px solid var(--border-mid); border-radius: var(--radius-md); overflow: hidden; width: 100%; }
 .json-toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--bg-card); border-bottom: 1px solid var(--border-dim); }
 .json-dot { width: 10px; height: 10px; border-radius: 50%; }
 .json-dot.red { background: #ef4444; } .json-dot.amber { background: #f59e0b; } .json-dot.green { background: #22c55e; }
 .json-filename { font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); margin-left: 8px; }
-.json-pre { margin: 0; padding: 18px; background: var(--bg-deep); font-size: 12px; font-family: var(--font-mono); color: #22c55e; overflow-x: auto; line-height: 1.8; max-height: 380px; overflow-y: auto; }
+.json-pre { margin: 0; padding: 18px; background: var(--bg-deep); font-size: 12px; font-family: var(--font-mono); color: #22c55e; overflow-x: auto; line-height: 1.8; max-height: 380px; overflow-y: auto; width: 100%; box-sizing: border-box; }
 
 /* ── Footer ───────────────────────────────────────── */
 .app-footer { max-width: 1400px; margin: 0 auto; padding: 20px 32px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); letter-spacing: 1px; border-top: 1px solid var(--border-dim); }
@@ -422,6 +422,8 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
+  width: 100%;
 }
 
 /* ── Cyber Forensics Report Print Media styles ─────── */
