@@ -4,7 +4,7 @@ import './Landing.css';
 import { 
   ShieldIcon, MoneyIcon, GlobeIcon, PubSubIcon, DatabaseIcon, IngestionIcon, 
   RocketIcon, AnalyticsIcon, LinkIcon, BrainIcon, KeyIcon, UserIcon, PhoneIcon,
-  AlertIcon, CheckIcon, PlayIcon, EmptyIcon
+  AlertIcon, CheckIcon, PlayIcon, EmptyIcon, SettingsIcon
 } from '../components/Icons';
 
 // ── Impact Stats ──────────────────────────────────────────────────────────────
