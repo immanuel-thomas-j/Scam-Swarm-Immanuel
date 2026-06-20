@@ -285,7 +285,7 @@ export default function Landing() {
             <span className="lnd-nav-title" style={{ fontSize: '14px' }}>SCAM SWARM</span>
           </div>
           <div className="lnd-footer-links">
-            <span>Made with ❤️ for Gemini Hack Day</span>
+            <span>Made with ❤️ for Gemini.exe 2.0</span>
             <span className="lnd-sep">//</span>
             <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
           </div>
