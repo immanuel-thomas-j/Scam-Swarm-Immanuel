@@ -44,7 +44,7 @@ Digital scammers leverage multiple psychological triggers (urgency, panic) combi
 Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Gemini.exe 2.0. By intercepting credential-harvesting billing links, fake lottery prize hooks, and blacklisted UPI Virtual Payment Addresses, Scam Swarm acts as an intelligent safety filter protecting consumers from financial fraud before digital transaction execution.
 
 ### ⚡ Gemini & Google Cloud Integrations
-- **Google Gemini API**: Utilizes the official `@google/genai` SDK to harness the high-speed reasoning of **Gemini 1.5 Flash**. It enforces strict JSON schemas to run linguistic urgency analysis, evaluate lookalike domains, and generate structured recommended actions.
+- **Google Gemini API**: Utilizes the official `@google/genai` SDK to harness the high-speed reasoning of **Gemini 2.5 Flash**. It enforces strict JSON schemas to run linguistic urgency analysis, evaluate lookalike domains, and generate structured recommended actions.
 - **Google Cloud Platform (GCP)**: Architected to run serverlessly on GCP, utilizing **Firebase Hosting** for delivery, **Cloud Functions** for orchestrator triggers, **Cloud Pub/Sub** for fanning out parallel agent requests, and **Firestore** for real-time threat telemetry storage.
 
 ---
@@ -54,7 +54,7 @@ Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Ge
 | Module | What it does |
 |--------|-------------|
 | 🤖 **Multi-Agent Pipeline** | Spawns three independent sub-agents (Link Investigator, Psychological Urgency Cop, and Financial Pattern Auditor) to analyze suspicious communications in parallel. |
-| ⚡ **Dual AI Engine Support** | Equipped with a runtime-switchable adapter to test and compare **Google Gemini 1.5 Flash** (via `@google/genai`) against **LLaMA 3.3** (via Groq Cloud SDK). |
+| ⚡ **Dual AI Engine Support** | Equipped with a runtime-switchable adapter to test and compare **Google Gemini 2.5 Flash** (via `@google/genai`) against **LLaMA 3.3** (via Groq Cloud SDK). |
 | 🔍 **Local Heuristics Engine** | Deterministically parses inputs for spoofed brand names, unencrypted HTTP links, blacklisted UPI handles, and urgency verbs before calling LLMs. |
 | 📋 **Fail-Safe Exporter** | Allows users to copy analysis reports in clean plain text or Markdown formats with fallback clipboard APIs for insecure HTTP/IP contexts. |
 | 💻 **Interactive SOC Dashboard** | Cyberpunk-themed Security Operations Center dashboard featuring custom SVG gauges, progress bars, and animations. |
@@ -66,7 +66,7 @@ Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Ge
 
 - **Framework**: React 19 (Hooks, Context, Router guards)
 - **Build Tooling**: Vite 8 (Fast dev server & optimized chunk building)
-- **AI Core Engines**: Google Gemini 1.5 Flash & Groq LLaMA 3.3-70B
+- **AI Core Engines**: Google Gemini 2.5 Flash & Groq LLaMA 3.3-70B
 - **Cloud Architecture**: GCP (Firebase Hosting, Cloud Functions, Pub/Sub, Firestore)
 - **Styling**: Vanilla CSS (Cyberpunk theme, flex columns, grid overlays, glassmorphic panels)
 
