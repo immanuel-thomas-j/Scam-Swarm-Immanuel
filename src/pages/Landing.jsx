@@ -130,7 +130,7 @@ export default function Landing() {
               <button className="lnd-cta-primary" onClick={() => navigate('/analyze')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <RocketIcon size={20} /> Deploy the Swarm
               </button>
-              <button className="lnd-cta-secondary" onClick={() => document.getElementById('stats').scrollIntoView({ behavior: 'smooth' })}>
+              <button className="lnd-cta-secondary" onClick={() => statsRef.current?.scrollIntoView({ behavior: 'smooth' })}>
                 See Live Stats ↓
               </button>
             </div>

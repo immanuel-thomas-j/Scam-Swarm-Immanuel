@@ -110,7 +110,12 @@
 }
 .lnd-cta-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(34,197,94,0.45); }
 .lnd-cta-primary.large { font-size: 18px; padding: 16px 36px; }
-.lnd-cta-secondary { font-size: 15px; color: var(--text-muted); text-decoration: none; padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-mid); transition: all 0.2s; }
+.lnd-cta-secondary {
+  font-size: 15px; color: var(--text-secondary); text-decoration: none;
+  padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-mid);
+  background: transparent; cursor: pointer; transition: all 0.2s;
+  font-family: var(--font-ui); font-weight: 600;
+}
 .lnd-cta-secondary:hover { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-glow); }
 
 @media (max-width: 960px) {

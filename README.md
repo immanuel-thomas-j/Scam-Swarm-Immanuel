@@ -1,141 +1,155 @@
-# Scam Swarm — Multi-Agent AI Fraud Detection Console
+<div align="center">
 
-**Scam Swarm** is a production-grade, GCP-native cybersecurity analysis platform built to identify, dissect, and neutralize digital scams, phishing threats, and financial frauds in real time. 
+<img src="https://img.shields.io/badge/Scam%20Swarm-Multi--Agent%20SOC-22d3ee?style=for-the-badge&logo=shield&logoColor=white" alt="Scam Swarm" />
 
-Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi-agent AI workforce to run parallel forensics on suspicious telemetry (SMS, email, UPI payment prompts, or suspect URLs) and returns a comprehensive intelligence verdict in under 2 seconds.
+# Scam Swarm
+### Real-Time Multi-Agent AI Fraud Detection & Heuristic Forensics Console
 
----
+[![React](https://img.shields.io/badge/Framework-React%2019-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Build%20Tool-Vite%208-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Gemini](https://img.shields.io/badge/Gen%20AI-Google%20Gemini-22d3ee?style=flat-square&logo=google-gemini&logoColor=white)](https://aistudio.google.com/)
+[![Groq](https://img.shields.io/badge/LLM-Groq%20LLaMA-f59e0b?style=flat-square&logo=meta&logoColor=white)](https://console.groq.com/)
+[![GCP](https://img.shields.io/badge/Cloud-Google%20Cloud-4285F4?style=flat-square&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
-## Hackathon Focus Areas & Standouts
+**Stop digital fraud, phishing, and UPI scams in under 2 seconds.**  
+Multi-agent parallel forensics · Deterministic heuristics check · Switchable dual AI engine · Vite React SPA
 
-### 1. Best Use of AI APIs
-*   **Dual AI Engine Support**: Equipped with a runtime-switchable engine adapter. Test and compare **Google Gemini 1.5 Flash** (via the official `@google/genai` SDK) against **LLaMA 3.3** (via Groq Cloud SDK).
-*   **Multi-Agent Parallel Forensics**: Simulates a decoupled Google Cloud Pub/Sub fan-out that spins up three specialized sub-agents:
-    1.  **🔗 Link & Domain Investigator**: Analyzes lookalike URLs, domain age/entropy, and credential-harvesting signatures.
-    2.  **🧠 Psychological Urgency Cop**: Scans for panic triggers, false authority, and artificial time limits.
-    3.  **💰 Financial Pattern Auditor**: Checks for unauthorized UPI requests, advance fee/lottery scams, and irregular bank codes.
-*   **Structured Schema Outputs**: Utilizes strict JSON mode definitions and schemas to ensure 100% reliable system telemetry, avoiding parse errors.
+Built for [NextGenHacks 2026](https://nextgenhacks.devpost.com)
 
-### 2. Best Deployed App
-*   **GCP-Native & Serverless Architecture**: Designed to scale horizontally on Google Cloud:
-    *   **Firebase Hosting**: Delivers the lightning-fast, secure React SPA globally.
-    *   **Cloud Functions**: Decoupled serverless orchestrators and sub-agent workers.
-    *   **Cloud Pub/Sub**: Manages asynchronous, non-blocking agent fan-out.
-    *   **Firestore**: Real-time audit trail, transaction logging, and result store.
-*   **Production Security**: Configured with strict security response headers (CSP, Frame protection, XSS control) and optimized caching rules for build bundles.
+</div>
 
 ---
 
-## Project Architecture
+## 📸 System Mindmap
 
-```
-                    ┌─────────────────────────┐
-                    │       User Client       │
-                    └────────────┬────────────┘
-                                 │ HTTPS
-                                 ▼
-                    ┌─────────────────────────┐
-                    │    Firebase Hosting     │
-                    └────────────┬────────────┘
-                                 │ REST API
-                                 ▼
-                    ┌─────────────────────────┐
-                    │     Cloud Function      │
-                    │     (Orchestrator)      │
-                    └────────────┬────────────┘
-                                 │
-                   ┌─────────────┼─────────────┐ (Pub/Sub Fan-Out)
-                   ▼             ▼             ▼
-             ┌───────────┐ ┌───────────┐ ┌───────────┐
-             │ Link Agent│ │Psych Agent│ │ Fin Agent │
-             │   (CF)    │ │   (CF)    │ │   (CF)    │
-             └─────┬─────┘ └─────┬─────┘ └─────┬─────┘
-                   │             │             │
-                   └─────────────┼─────────────┘ (Aggregate)
-                                 ▼
-                    ┌─────────────────────────┐
-                    │     Firestore DB        │
-                    │   (Results & Audit)     │
-                    └─────────────────────────┘
+```mermaid
+graph TD
+    User([User Client]) -->|HTTPS| FH[Firebase Hosting]
+    FH -->|REST API| CF[Cloud Function Orchestrator]
+    CF -->|Pub/Sub Fan-Out| A1[Agent 01: Link Investigator]
+    CF -->|Pub/Sub Fan-Out| A2[Agent 02: Urgency Cop]
+    CF -->|Pub/Sub Fan-Out| A3[Agent 03: Pattern Auditor]
+    A1 & A2 & A3 -->|Forensics Aggregation| Firestore[(Firestore DB)]
+    Firestore -->|JSON Report| User
 ```
 
 ---
 
-## Getting Started
+## 💡 The Problem
 
-### Prerequisites
-*   [Node.js](https://nodejs.org/) (v18 or higher recommended)
-*   An API key from **[Google AI Studio](https://aistudio.google.com/)** (Gemini) or **[Groq Console](https://console.groq.com/)**.
-
-### Local Setup
-1.  **Clone the Repository & Install Dependencies**:
-    ```bash
-    npm install
-    ```
-
-2.  **Configure Environment Variables**:
-    Copy the example template file to `.env`:
-    ```bash
-    cp .env.example .env
-    ```
-    Open `.env` and configure your API keys:
-    ```env
-    VITE_GEMINI_API_KEY=your_gemini_api_key_here
-    VITE_GROQ_API_KEY=your_groq_api_key_here
-    ```
-
-3.  **Run Development Server**:
-    ```bash
-    npm run dev
-    ```
-    Open your browser and navigate to `http://localhost:5173`.
+Digital scammers leverage multiple psychological triggers (urgency, panic) combined with deceptive infrastructure (brand typosquatting, disposable domains, and illicit UPI Virtual Payment Addresses) to defraud victims. Standard static firewalls cannot capture these dynamic social engineering threats. Scam Swarm resolves this by orchestrating a specialized multi-agent AI workforce to run parallel diagnostics on suspicious telemetry in real-time.
 
 ---
 
-## Codebase Structure
+## ✨ Features
 
+| Module | What it does |
+|--------|-------------|
+| 🤖 **Multi-Agent Pipeline** | Spawns three independent sub-agents (Link Investigator, Psychological Urgency Cop, and Financial Pattern Auditor) to analyze suspicious communications in parallel. |
+| ⚡ **Dual AI Engine Support** | Equipped with a runtime-switchable adapter to test and compare **Google Gemini 1.5 Flash** (via `@google/genai`) against **LLaMA 3.3** (via Groq Cloud SDK). |
+| 🔍 **Local Heuristics Engine** | Deterministically parses inputs for spoofed brand names, unencrypted HTTP links, blacklisted UPI handles, and urgency verbs before calling LLMs. |
+| 📋 **Fail-Safe Exporter** | Allows users to copy analysis reports in clean plain text or Markdown formats with fallback clipboard APIs for insecure HTTP/IP contexts. |
+| 💻 **Interactive SOC Dashboard** | Cyberpunk-themed Security Operations Center dashboard featuring custom SVG gauges, progress bars, and animations. |
+| 🗂️ **JSON Schema Telemetry** | Leverages strict JSON mode formatting to ensure 100% reliable structural communication between orchestrators and model engines. |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: React 19 (Hooks, Context, Router guards)
+- **Build Tooling**: Vite 8 (Fast dev server & optimized chunk building)
+- **AI Core Engines**: Google Gemini 1.5 Flash & Groq LLaMA 3.3-70B
+- **Cloud Architecture**: GCP (Firebase Hosting, Cloud Functions, Pub/Sub, Firestore)
+- **Styling**: Vanilla CSS (Cyberpunk theme, flex columns, grid overlays, glassmorphic panels)
+
+---
+
+## 🗄️ Database & Telemetry Schema
+
+Scam Swarm structures all agent analysis logs as a strict JSON telemetry payload:
+
+```json
+{
+  "overallRiskScore": 94,
+  "verdict": "CRITICAL THREAT",
+  "scamCategory": "Phishing and Social Engineering",
+  "executiveSummary": "The email attempts to steal credentials using suspend alerts and typosquatted links.",
+  "confidence": 95,
+  "metrics": {
+    "linguisticUrgency": 80,
+    "domainRisk": 100,
+    "financialRisk": 90
+  },
+  "threatIndicators": [
+    "unauthorized login",
+    "netflix-billing-update.com",
+    "terminated"
+  ],
+  "recommendedActions": [
+    "Do NOT click on the provided link",
+    "Verify the authenticity of the email with Netflix directly",
+    "Report the incident to the cybersecurity team"
+  ],
+  "agents": [
+    {
+      "name": "Link & Domain Investigator",
+      "status": "MALICIOUS",
+      "finding": "The domain 'netflix-billing-update.com' is a known phishing domain."
+    }
+  ]
+}
 ```
-├── public/                 # Static assets
-├── src/
-│   ├── pages/
-│   │   ├── Landing.jsx     # Professional landing page, stats, and GCP overview
-│   │   ├── Landing.css     # Landing page aesthetics, grid background, animations
-│   │   ├── Analyzer.jsx    # Real-time multi-agent fraud analyzer dashboard
-│   │   └── ...
-│   ├── App.css             # Main application layout and dashboard styles
-│   ├── index.css           # Global design system variables and keyframe animations
-│   ├── main.jsx            # Router and React application entrypoint
-│   └── ...
-├── firebase.json           # Firebase Hosting security headers & rewrites config
-├── vite.config.js          # Vite compilation config
-└── package.json            # Dependencies list (React 19, React Router 7, @google/genai, groq-sdk)
+
+---
+
+## 🚀 Running Locally
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/immanuel-thomas-j/Scam-Swarm-Immanuel.git
+cd Scam-Swarm-Immanuel
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+Create a `.env` file in the root directory and add your API credentials:
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+VITE_GROQ_API_KEY=your_groq_api_key_here
+```
+*(Note: A fallback config is embedded to gracefully alert the user if keys are omitted).*
+
+### 4. Run the development server
+```bash
+npm run dev
+```
+Then open `http://localhost:5173`.
+
+### 5. Production build
+To build and optimize the project for production deployment:
+```bash
+npm run build
+npm run preview
 ```
 
 ---
 
-## Production Deployment (Firebase Hosting)
-
-To deploy the frontend application to production:
-
-1.  **Install Firebase CLI**:
-    ```bash
-    npm install -g firebase-tools
-    ```
-
-2.  **Authenticate & Initialize**:
-    ```bash
-    firebase login
-    firebase init hosting
-    ```
-    *Select your GCP project and set the public directory to `dist`.*
-
-3.  **Build and Deploy**:
-    ```bash
-    npm run build
-    firebase deploy
-    ```
-
----
-
-## Indian Cybercrime Support
+## 🛡️ National Helpline Support
 If you have fallen victim to financial cyber fraud, immediately contact the **National Cybercrime Helpline** at **`1930`** or register a formal complaint at **[cybercrime.gov.in](https://cybercrime.gov.in)**.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ for NextGenHacks 2026</sub>
+</div>
