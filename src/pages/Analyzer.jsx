@@ -953,7 +953,7 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
         <span className="footer-sep">//</span>
         <span>Made with ❤️ for Gemini.exe 2.0</span>
         <span className="footer-sep">//</span>
-        <span>React · Google Gemini API · Firebase Hosting</span>
+        <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
         <span className="footer-sep">//</span>
         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <AlertIcon size={14} color="var(--red)" />

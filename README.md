@@ -19,6 +19,23 @@ Built for Gemini.exe 2.0
 
 </div>
 
+---
+
+## 📸 System Mindmap
+
+```mermaid
+graph TD
+    User([User Client]) -->|HTTPS| FH[Firebase Hosting]
+    FH -->|REST API| CF[Cloud Function Orchestrator]
+    CF -->|Pub/Sub Fan-Out| A1[Agent 01: Link Investigator]
+    CF -->|Pub/Sub Fan-Out| A2[Agent 02: Urgency Cop]
+    CF -->|Pub/Sub Fan-Out| A3[Agent 03: Pattern Auditor]
+    A1 & A2 & A3 -->|Forensics Aggregation| Firestore[(Firestore DB)]
+    Firestore -->|JSON Report| User
+```
+
+---
+
 ## 💡 The Problem
 
 Digital scammers leverage multiple psychological triggers (urgency, panic) combined with deceptive infrastructure (brand typosquatting, disposable domains, and illicit UPI Virtual Payment Addresses) to defraud victims. Standard static firewalls cannot capture these dynamic social engineering threats. Scam Swarm resolves this by orchestrating a specialized multi-agent AI workforce to run parallel diagnostics on suspicious telemetry in real-time.
@@ -28,7 +45,7 @@ Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Ge
 
 ### ⚡ Gemini & Google Cloud Integrations
 - **Google Gemini API**: Utilizes the official `@google/genai` SDK to harness the high-speed reasoning of **Gemini 1.5 Flash**. It enforces strict JSON schemas to run linguistic urgency analysis, evaluate lookalike domains, and generate structured recommended actions.
-- **Firebase Hosting**: Serves the React SPA globally on Google Cloud's content delivery network (CDN) edge.
+- **Google Cloud Platform (GCP)**: Architected to run serverlessly on GCP, utilizing **Firebase Hosting** for delivery, **Cloud Functions** for orchestrator triggers, **Cloud Pub/Sub** for fanning out parallel agent requests, and **Firestore** for real-time threat telemetry storage.
 
 ---
 
@@ -50,7 +67,7 @@ Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Ge
 - **Framework**: React 19 (Hooks, Context, Router guards)
 - **Build Tooling**: Vite 8 (Fast dev server & optimized chunk building)
 - **AI Core Engines**: Google Gemini 1.5 Flash & Groq LLaMA 3.3-70B
-- **Cloud Hosting**: GCP (Firebase Hosting for static delivery)
+- **Cloud Architecture**: GCP (Firebase Hosting, Cloud Functions, Pub/Sub, Firestore)
 - **Styling**: Vanilla CSS (Cyberpunk theme, flex columns, grid overlays, glassmorphic panels)
 
 ---
