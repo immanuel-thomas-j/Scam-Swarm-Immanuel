@@ -17,6 +17,26 @@ const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
 const groq = groqApiKey ? new Groq({ apiKey: groqApiKey, dangerouslyAllowBrowser: true }) : null;
 const ai = geminiApiKey ? new GoogleGenAI({ apiKey: geminiApiKey }) : null;
 
+async function writeToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    const successful = document.execCommand('copy');
+    if (!successful) throw new Error('Copy command failed');
+  } catch (err) {
+    throw new Error('Fallback clipboard copy failed: ' + err.message);
+  } finally {
+    document.body.removeChild(textArea);
+  }
+}
+
 async function callAI(prompt, engine = 'gemini') {
   if (engine === 'gemini') {
     if (!ai) throw new Error('Gemini API key is not configured.');
