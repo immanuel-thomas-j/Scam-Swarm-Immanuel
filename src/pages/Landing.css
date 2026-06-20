@@ -296,4 +296,31 @@
   transform: translateY(0);
 }
 
+@media (max-width: 640px) {
+  .lnd-arch-flow {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .lnd-arch-connector {
+    display: none;
+  }
+  .lnd-arch-pubsub-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .lnd-pubsub-line {
+    width: 2px;
+    height: 30px;
+    max-width: 2px;
+    background: linear-gradient(180deg, var(--border-glow), var(--cyan-dim));
+  }
+  .lnd-arch-agents-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
 
