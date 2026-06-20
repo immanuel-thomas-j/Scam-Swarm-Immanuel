@@ -216,3 +216,10 @@ export const PlayIcon = ({ size, color }) => (
     <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
   </svg>
 );
+
+export const ArrowLeftIcon = ({ size, color = 'currentColor' }) => (
+  <svg {...svgProps(size, color)}>
+    <line x1="19" y1="12" x2="5" y2="12" />
+    <polyline points="12 19 5 12 12 5" />
+  </svg>
+);

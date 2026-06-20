@@ -7,7 +7,7 @@ import {
   ShieldIcon, IngestionIcon, AnalyticsIcon, RobotIcon, SettingsIcon, 
   LightningIcon, RocketIcon, LinkIcon, BrainIcon, MoneyIcon, 
   AlertIcon, PhoneIcon, BankIcon, LockIcon, CheckIcon, EyeIcon, 
-  ResetIcon, ClipboardIcon, EmptyIcon, SearchIcon, PlayIcon, CloseIcon, PhoneCallIcon
+  ResetIcon, ClipboardIcon, EmptyIcon, SearchIcon, PlayIcon, CloseIcon, PhoneCallIcon, ArrowLeftIcon
 } from '../components/Icons';
 
 // ── API Adapter — dual engine support (Gemini + Groq) ─────────────────────────
@@ -640,7 +640,9 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
       <header className="app-header">
         <div className="header-inner">
           <div className="header-brand">
-            <button className="back-btn" onClick={() => navigate('/')} title="Back to Home">←</button>
+            <button className="back-btn" onClick={() => navigate('/')} title="Back to Home">
+              <ArrowLeftIcon size={18} />
+            </button>
             <div className="brand-icon-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <ShieldIcon size={24} color="var(--cyan)" />
             </div>
