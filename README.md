@@ -8,7 +8,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
 
 ## 🏆 Hackathon Focus Areas & Standouts
 
-### 1. Best Use of AI APIs (1st Place Target)
+### 1. Best Use of AI APIs
 *   **Dual AI Engine Support**: Equipped with a runtime-switchable engine adapter. Test and compare **Google Gemini 1.5 Flash** (via the official `@google/genai` SDK) against **LLaMA 3.3** (via Groq Cloud SDK).
 *   **Multi-Agent Parallel Forensics**: Simulates a decoupled Google Cloud Pub/Sub fan-out that spins up three specialized sub-agents:
     1.  **🔗 Link & Domain Investigator**: Analyzes lookalike URLs, domain age/entropy, and credential-harvesting signatures.
@@ -16,7 +16,7 @@ Designed for high-impact social defense, Scam Swarm deploys a coordinated, multi
     3.  **💰 Financial Pattern Auditor**: Checks for unauthorized UPI requests, advance fee/lottery scams, and irregular bank codes.
 *   **Structured Schema Outputs**: Utilizes strict JSON mode definitions and schemas to ensure 100% reliable system telemetry, avoiding parse errors.
 
-### 2. Best Deployed App (1st Place Target)
+### 2. Best Deployed App
 *   **GCP-Native & Serverless Architecture**: Designed to scale horizontally on Google Cloud:
     *   **Firebase Hosting**: Delivers the lightning-fast, secure React SPA globally.
     *   **Cloud Functions**: Decoupled serverless orchestrators and sub-agent workers.
