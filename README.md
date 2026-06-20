@@ -40,6 +40,13 @@ graph TD
 
 Digital scammers leverage multiple psychological triggers (urgency, panic) combined with deceptive infrastructure (brand typosquatting, disposable domains, and illicit UPI Virtual Payment Addresses) to defraud victims. Standard static firewalls cannot capture these dynamic social engineering threats. Scam Swarm resolves this by orchestrating a specialized multi-agent AI workforce to run parallel diagnostics on suspicious telemetry in real-time.
 
+### 🎯 Problem Statement & Fintech Alignment
+Scam Swarm aligns directly with the **Fintech** and **AI Security** tracks of Gemini.exe 2.0. By intercepting credential-harvesting billing links, fake lottery prize hooks, and blacklisted UPI Virtual Payment Addresses, Scam Swarm acts as an intelligent safety filter protecting consumers from financial fraud before digital transaction execution.
+
+### ⚡ Gemini & Google Cloud Integrations
+- **Google Gemini API**: Utilizes the official `@google/genai` SDK to harness the high-speed reasoning of **Gemini 1.5 Flash**. It enforces strict JSON schemas to run linguistic urgency analysis, evaluate lookalike domains, and generate structured recommended actions.
+- **Google Cloud Platform (GCP)**: Architected to run serverlessly on GCP, utilizing **Firebase Hosting** for delivery, **Cloud Functions** for orchestrator triggers, **Cloud Pub/Sub** for fanning out parallel agent requests, and **Firestore** for real-time threat telemetry storage.
+
 ---
 
 ## ✨ Features
