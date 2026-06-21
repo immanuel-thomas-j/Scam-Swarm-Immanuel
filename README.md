@@ -144,6 +144,26 @@ npm run build
 npm run preview
 ```
 
+### 6. ☁️ Serverless Backend Deployment (Firebase Cloud Functions + Firestore)
+The serverless Cloud Function orchestrator code is fully written in the `/functions` directory. To deploy it to Google Cloud / Firebase and connect it to Cloud Firestore:
+
+1. Initialize Functions in your `firebase.json` configuration file by adding the following block:
+```json
+"functions": {
+  "source": "functions",
+  "codeTransform": true
+}
+```
+2. Configure your Gemini API key as a secure secret in your Firebase project:
+```bash
+firebase functions:secrets:set GEMINI_API_KEY="your_gemini_api_key"
+```
+3. Deploy the Cloud Function:
+```bash
+firebase deploy --only functions
+```
+Once deployed, the orchestrator POST endpoint is live and logs transaction audits directly into your Google Cloud Firestore database collections.
+
 ---
 
 ## 🛡️ National Helpline Support
