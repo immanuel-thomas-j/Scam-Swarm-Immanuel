@@ -973,7 +973,9 @@ Respond ONLY with a valid JSON object (no extra text) matching this structure ex
       <footer className="app-footer">
         <span>SCAM SWARM v2.0</span>
         <span className="footer-sep">//</span>
-        <span>Made with ❤️ for Gemini.exe 2.0</span>
+        <a href="https://github.com/immanuel-thomas-j/Scam-Swarm-Immanuel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>GitHub</a>
+        <span className="footer-sep">//</span>
+        <a href="https://youtu.be/s5-9-mTKe9o" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>YouTube Demo</a>
         <span className="footer-sep">//</span>
         <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
         <span className="footer-sep">//</span>

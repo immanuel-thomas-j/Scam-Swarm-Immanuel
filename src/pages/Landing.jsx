@@ -285,7 +285,9 @@ export default function Landing() {
             <span className="lnd-nav-title" style={{ fontSize: '14px' }}>SCAM SWARM</span>
           </div>
           <div className="lnd-footer-links">
-            <span>Made with ❤️ for Gemini.exe 2.0</span>
+            <a href="https://github.com/immanuel-thomas-j/Scam-Swarm-Immanuel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>GitHub Repo</a>
+            <span className="lnd-sep">//</span>
+            <a href="https://youtu.be/s5-9-mTKe9o" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cyan)', textDecoration: 'none' }}>YouTube Demo</a>
             <span className="lnd-sep">//</span>
             <span>GCP · Firebase · Cloud Functions · Pub/Sub</span>
           </div>
